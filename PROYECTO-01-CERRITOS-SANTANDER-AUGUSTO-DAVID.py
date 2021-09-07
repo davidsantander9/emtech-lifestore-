@@ -1457,46 +1457,65 @@ lifestore_searches = [
     [1033, 95]
 ]
 
-# a list of sales number and product id lists
+# a list of sales number and product id lists [[sales, id, name, category], ]
 sales_by_product = []
 
-# a list of search number and product id lists
+# a list of search number and product id lists [search, id, name]
 search_by_product = []
 
-#Fill the list with amount = 0, id, name
+# a list of product by review [average_review, id, name, reviews, sum_reviews  ]
+product_by_review = []
+
 for product in lifestore_products:
-    sales_by_product.append( [ 0, product[0], product[1] ] )
+    sales_by_product.append( [ 0, product[0], product[1], product[3] ])
     search_by_product.append( [ 0, product[0], product[1] ] )
+    product_by_review.append( [ 0, product[0], product[1], 0, 0 ] )
 
 
 """ List of the 50 best-selling products """
 
-# count products sales
-for sales in lifestore_sales:
-    sales_by_product[ sales[1] - 1 ][0] += 1
+# # count products sales
+# for sales in lifestore_sales:
+#     sales_by_product[ sales[1] - 1 ][0] += 1
 
-sales_by_product.sort(reverse=True)
-
-
-#print the results sales
-print('id | amount | name')
-for product in sales_by_product[0:49]:
-    print(product[1], product[0], product[2])
+# sales_by_product.sort(reverse=True)
 
 
-""" List of the 100 most search products  """
+# #print the results sales
+# print('id | amount | name')
+# for product in sales_by_product[0:49]:
+#     print(product[1], product[0], product[2], product[3])
 
-# search products sales
-for search in lifestore_searches:
-    search_by_product[ search[1] - 1 ][0] += 1
 
-search_by_product.sort(reverse=True)
+""" List of the 100 most searched products  """
 
-print('--'*20)
-#print the results search
-print('id | amount | name')
-for product in search_by_product[0:99]:
-    print(product[1], product[0], product[2])
+# # search products sales
+# for search in lifestore_searches:
+#     search_by_product[ search[1] - 1 ][0] += 1
+
+# search_by_product.sort(reverse=True)
+
+# print('--'*20)
+# #print the results search
+# print('id | amount | name')
+# for product in search_by_product[0:99]:
+#     print(product[1], product[0], product[2])
+
+""" List of the products with best reviews """
+
+# search review product
+for sale in lifestore_sales:
+    product = product_by_review[ sale[1] - 1 ] 
+    review = sale[2]
+    product[4] += review #sum review
+    product[3] += 1 #add one to num of reviews
+    product[0] =  product[4] / product[3] # average of reviews
+    product_by_review[ sale[1] - 1  ] = product #update values
+
+product_by_review.sort(reverse=True)
+
+for product in product_by_review:
+    print(product)
 
 
 
