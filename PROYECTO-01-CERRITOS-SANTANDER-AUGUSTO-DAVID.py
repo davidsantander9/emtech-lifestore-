@@ -1457,13 +1457,19 @@ lifestore_searches = [
     [1033, 95]
 ]
 
-"""List of the 50 best-selling products"""
-
 # a list of sales number and product id lists
 sales_by_product = []
 
+# a list of search number and product id lists
+search_by_product = []
+
+#Fill the list with amount = 0, id, name
 for product in lifestore_products:
     sales_by_product.append( [ 0, product[0], product[1] ] )
+    search_by_product.append( [ 0, product[0], product[1] ] )
+
+
+""" List of the 50 best-selling products """
 
 # count products sales
 for sales in lifestore_sales:
@@ -1471,8 +1477,26 @@ for sales in lifestore_sales:
 
 sales_by_product.sort(reverse=True)
 
-#print the results
+
+#print the results sales
 print('id | amount | name')
 for product in sales_by_product[0:49]:
     print(product[1], product[0], product[2])
+
+
+""" List of the 100 most search products  """
+
+# search products sales
+for search in lifestore_searches:
+    search_by_product[ search[1] - 1 ][0] += 1
+
+search_by_product.sort(reverse=True)
+
+print('--'*20)
+#print the results search
+print('id | amount | name')
+for product in search_by_product[0:99]:
+    print(product[1], product[0], product[2])
+
+
 
