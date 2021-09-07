@@ -1463,13 +1463,13 @@ sales_by_product = []
 # a list of search number and product id lists [search, id, name]
 search_by_product = []
 
-# a list of product by review [average_review, id, name, reviews, sum_reviews  ]
+# a list of product by review [average_review, id, name, reviews, sum_reviews, refound ]
 product_by_review = []
 
 for product in lifestore_products:
     sales_by_product.append( [ 0, product[0], product[1], product[3] ])
     search_by_product.append( [ 0, product[0], product[1] ] )
-    product_by_review.append( [ 0, product[0], product[1], 0, 0 ] )
+    product_by_review.append( [ 0, product[0], product[1], 0, 0, 0] )
 
 
 """ List of the 50 best-selling products """
@@ -1503,6 +1503,8 @@ for product in lifestore_products:
 
 """ List of the products with best reviews """
 
+refund_products = []
+
 # search review product
 for sale in lifestore_sales:
     product = product_by_review[ sale[1] - 1 ] 
@@ -1510,12 +1512,27 @@ for sale in lifestore_sales:
     product[4] += review #sum review
     product[3] += 1 #add one to num of reviews
     product[0] =  product[4] / product[3] # average of reviews
+    product[5] = sale[4] # refund
     product_by_review[ sale[1] - 1  ] = product #update values
 
 product_by_review.sort(reverse=True)
 
-for product in product_by_review:
-    print(product)
+# best_review_product = product_by_review[0:19]
+# for product in best_review_product:
+#     print(product)
 
+
+#Worst review products with refund
+refund_products = []
+
+for product in product_by_review:
+    if product[5] == 1:
+        refund_products.append(product)
+
+refund_products.sort(reverse=True)
+
+
+for product in refund_products[0:19]:
+    print(product)
 
 
