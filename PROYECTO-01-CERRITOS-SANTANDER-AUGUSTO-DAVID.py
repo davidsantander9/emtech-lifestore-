@@ -1,33 +1,3 @@
-"""This is a Emtech project"""
-
-user_logged = False
-message = 'This is a message'
-message_error = 'Error' 
-
-# Users and passwords
-users = [
-            ['john', 'john-doe'],
-            ['jane', 'jane-doe']
-        ]
-
-# Ask for credentials
-user     = input('Write your user: ')
-password = input('Write your password: ')
-
-
-# Confirm credentials
-for u in users:
-    if user == u[0] and  password == u[1]:
-        message = 'Welcome ' + user
-        print(message.center(40, '-'))
-        user_logged = True
-        break
-
-# Message if credentials are incorrect
-if not  user_logged:
-    message_error = 'User or password incorrect'
-    print(message_error.center(40, '-'))
-
 """
 This is the LifeStore_SalesList data:
 
@@ -1457,6 +1427,36 @@ lifestore_searches = [
     [1033, 95]
 ]
 
+"""This is a Emtech project"""
+
+user_logged = False
+message = 'This is a message'
+message_error = 'Error' 
+
+# Users and passwords
+users = [
+            ['john', 'john-doe'],
+            ['jane', 'jane-doe']
+        ]
+
+# Ask for credentials
+user     = input('Write your user: ')
+password = input('Write your password: ')
+
+
+# Confirm credentials
+for u in users:
+    if user == u[0] and  password == u[1]:
+        message = 'Welcome ' + user
+        print(message.center(40, '-'))
+        user_logged = True
+        break
+
+# Message if credentials are incorrect
+if not  user_logged:
+    message_error = 'User or password incorrect'
+    print(message_error.center(40, '-'))
+
 # a list of sales number and product id lists [[sales, id, name, category], ]
 sales_by_product = []
 
@@ -1502,8 +1502,6 @@ for product in lifestore_products:
 #     print(product[1], product[0], product[2])
 
 """ List of the products with best reviews """
-
-refund_products = []
 
 # search review product
 for sale in lifestore_sales:
