@@ -1432,31 +1432,9 @@ lifestore_searches = [
 user_logged = False
 message = 'This is a message'
 message_error = 'Error' 
-
-# Users and passwords
-users = [
-            ['john', 'john-doe'],
-            ['jane', 'jane-doe']
-        ]
-
-# Ask for credentials
-user     = input('Write your user: ')
-password = input('Write your password: ')
-
-
-# Confirm credentials
-for u in users:
-    if user == u[0] and  password == u[1]:
-        message = 'Welcome ' + user
-        print(message.center(40, '-'))
-        user_logged = True
-        break
-
-# Message if credentials are incorrect
-if not  user_logged:
-    message_error = 'User or password incorrect'
-    print(message_error.center(40, '-'))
-
+n = 50 # Number of products
+i = 0 # index because we can't use range
+num_characters = 40 # To display in product information
 # a list of sales number and product id lists [[sales, id, name, category], ]
 sales_by_product = []
 
@@ -1466,71 +1444,142 @@ search_by_product = []
 # a list of product by review [average_review, id, name, reviews, sum_reviews, refound ]
 product_by_review = []
 
+# Users and passwords
+#[user, password]
+users = [
+            ['john', 'john-doe'],
+            ['jane', 'jane-doe']
+        ]
+
+
 for product in lifestore_products:
     sales_by_product.append( [ 0, product[0], product[1], product[3] ])
     search_by_product.append( [ 0, product[0], product[1] ] )
     product_by_review.append( [ 0, product[0], product[1], 0, 0, 0] )
 
+while( not user_logged ):
+    # Ask for credentials
+    user     = input('Write your user: ')
+    password = input('Write your password: ')
+
+    # Confirm credentials
+    for u in users:
+        if user == u[0] and  password == u[1]:
+            message = 'Welcome ' + user
+            print(message.center(40, '-'))
+            user_logged = True
+            break
+
+    # Message if credentials are incorrect
+    if not  user_logged:
+        message_error = 'User or password incorrect'
+        print(message_error.center(40, '-'))
+    else:
+        # Menu
+        menu_option = "0"
+        while not ( menu_option == "-1" ):
+            print("Menu")
+            print("1. List of the 50 best-selling products")
+            print("2. List of the 100 most searched products")
+            print("3. List of the 100 most searched products")
+            print("4. List of the 5 best-selling products by category")
+            print("5. List of the worst 5 products sold")
+            print("-1. Logout")
+            menu_option = input('Choose an option: ')
+            if( menu_option == "1" ):
+                print("1..")
+            elif( menu_option == "2" ):
+                print("2..")
+            elif( menu_option == "3" ):
+                print("3..")
+            elif( menu_option == "4" ):
+                print("4..")
+            elif( menu_option == "5" ):
+                print("5..")
+            elif( menu_option == "-1"):
+                user_logged = False
+                print("logout")
+
+
+
+
 
 """ List of the 50 best-selling products """
 
-# # count products sales
-# for sales in lifestore_sales:
-#     sales_by_product[ sales[1] - 1 ][0] += 1
+# count products sales
+# for sale in lifestore_sales:
+#     if sale[4] == 0:
+#         sales_by_product[ sale[1] - 1 ][0] += 1
 
 # sales_by_product.sort(reverse=True)
 
 
 # #print the results sales
-# print('id | amount | name')
-# for product in sales_by_product[0:49]:
-#     print(product[1], product[0], product[2], product[3])
+# n = 50
+# print('top| id | amount | name')
+# for product in sales_by_product[:n]:
+#     i += 1
+#     print("{}.  {} {} {} {}".format( i, product[1], product[0], product[2], product[3][:num_characters] ))
 
 
 """ List of the 100 most searched products  """
 
-# # search products sales
+# search products sales
+
+# n = 100
+# i = 0
+
 # for search in lifestore_searches:
 #     search_by_product[ search[1] - 1 ][0] += 1
 
 # search_by_product.sort(reverse=True)
 
-# print('--'*20)
 # #print the results search
 # print('id | amount | name')
-# for product in search_by_product[0:99]:
-#     print(product[1], product[0], product[2])
+# for product in search_by_product[0:n]:
+#     i += 1
+#     print("{}. | {} | {} | {} ".format( i, product[1], product[0], product[2][:num_characters] ))
 
 """ List of the products with best reviews """
 
+# n = 20
+# i = 0
+
 # search review product
-for sale in lifestore_sales:
-    product = product_by_review[ sale[1] - 1 ] 
-    review = sale[2]
-    product[4] += review #sum review
-    product[3] += 1 #add one to num of reviews
-    product[0] =  product[4] / product[3] # average of reviews
-    product[5] = sale[4] # refund
-    product_by_review[ sale[1] - 1  ] = product #update values
+# for sale in lifestore_sales:
+#     product = product_by_review[ sale[1] - 1 ] 
+#     review = sale[2]
+#     product[4] += review #sum review
+#     product[3] += 1 #add one to num of reviews
+#     product[0] =  product[4] / product[3] # reviews average 
+#     product[5] = sale[4] # refund
+#     product_by_review[ sale[1] - 1  ] = product #update values
 
-product_by_review.sort(reverse=True)
+# product_by_review.sort(reverse=True)
 
-# best_review_product = product_by_review[0:19]
+# best_review_product = product_by_review[:n]
+
+# print best review products
+# i = 0
 # for product in best_review_product:
-#     print(product)
+#     i +=1
+#     print("{}. | {} | {:.2f} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
 
 
 #Worst review products with refund
-refund_products = []
+# refund_products = []
 
-for product in product_by_review:
-    if product[5] == 1:
-        refund_products.append(product)
+# for product in product_by_review:
+#     if product[5] == 1:
+#         refund_products.append(product)
 
-refund_products.sort(reverse=True)
+# refund_products.sort(reverse=True)
 
+# print("-"*20)
 
-for product in refund_products[0:19]:
-    print(product)
+# i=0
+# for product in refund_products[-n:]:
+#     i +=1
+#     print("{}. | {} | {:.2f} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
 
 
