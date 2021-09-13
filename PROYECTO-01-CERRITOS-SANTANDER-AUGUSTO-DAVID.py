@@ -1477,17 +1477,23 @@ while( not user_logged ):
     else:
         # Menu
         menu_option = "0"
-        while not ( menu_option == "-1" ):
+        while ( user_logged ):
             print("Menu")
             print("1. List of the 50 best-selling products")
             print("2. List of the 100 most searched products")
             print("3. List of the 100 most searched products")
             print("4. List of the 5 best-selling products by category")
             print("5. List of the worst 5 products sold")
-            print("-1. Logout")
+            print("0. Logout")
             menu_option = input('Choose an option: ')
             if( menu_option == "1" ):
-                print("1..")
+                """ List of the 50 best-selling products """
+                # count products sales
+                for sale in lifestore_sales:
+                    if sale[4] == 0:
+                        sales_by_product[ sale[1] - 1 ][0] += 1
+
+                sales_by_product.sort(reverse=True)
             elif( menu_option == "2" ):
                 print("2..")
             elif( menu_option == "3" ):
@@ -1496,22 +1502,15 @@ while( not user_logged ):
                 print("4..")
             elif( menu_option == "5" ):
                 print("5..")
-            elif( menu_option == "-1"):
+            elif( menu_option == "0" ):
                 user_logged = False
-                print("logout")
+                print("*logout*")
 
 
 
 
 
-""" List of the 50 best-selling products """
 
-# count products sales
-# for sale in lifestore_sales:
-#     if sale[4] == 0:
-#         sales_by_product[ sale[1] - 1 ][0] += 1
-
-# sales_by_product.sort(reverse=True)
 
 
 # #print the results sales
