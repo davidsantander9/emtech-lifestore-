@@ -1453,11 +1453,24 @@ users = [
             ['jane', 'jane-doe']
         ]
 
+# [[category1, [product,] ], [category2, [product,]] ]
+categories = []
 
 for product in lifestore_products:
-    sales_by_product.append( [ 0, product[0], product[1], product[3] ])
-    search_by_product.append( [ 0, product[0], product[1] ] )
-    product_by_review.append( [ 0, product[0], product[1], 0, 0, 0] )
+    sales_by_product.append( [ 0, product[0], product[1], product[3] ]) # quantity_sales, id, name, category
+    search_by_product.append( [ 0, product[0], product[1] ] ) # search_quantity, id, name,
+    product_by_review.append( 
+        [ 0, #average_revew
+         product[0], #id
+         product[1], #name
+         0, #quantity_review
+         0, #sum review
+         0, # refund
+        ] 
+        )
+    category = [product[3], []]
+    if not category in categories:
+        categories.append(category)
 
 
 """ List of the 50 best-selling products """
@@ -1465,7 +1478,21 @@ for product in lifestore_products:
 for sale in lifestore_sales:
     if sale[4] == 0:
         sales_by_product[ sale[1] - 1 ][0] += 1
+
 sales_by_product.sort(reverse=True)
+
+# Sales by category
+for sale in sales_by_product:
+    for category in categories:
+        if category[0] == sale[3]:
+            category[1].append(sale)
+
+for category in categories:
+    print("**********")
+    print(category[0])
+    print("**********")
+    for sale in category[1]:
+        print( sale )
 
 """ List of the 100 most searched products  """
 
@@ -1519,8 +1546,6 @@ while( not user_logged ):
                     i += 1
                     print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][0:num_characters] ))
                     
-                input("Prest enter to continue...")
-                print(clear_screen)
             elif( menu_option == "2" ):
                 #print the results search
                 n = 50
@@ -1528,20 +1553,23 @@ while( not user_logged ):
                 for product in search_by_product[0:n]:
                     i += 1
                     print("{}. | {} | {} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
-                input("Prest enter to continue...")
-                print(clear_screen)
+
             elif( menu_option == "3" ):
-                input("Prest enter to continue...")
-                print(clear_screen)
+                print(3)
             elif( menu_option == "4" ):
-                input("Prest enter to continue...")
-                print(clear_screen)
+                print(4)
             elif( menu_option == "5" ):
-                input("Prest enter to continue...")
-                print(clear_screen)
+                print(5)
             elif( menu_option == "0" ):
                 user_logged = False
                 print("*logout*")
+            else:
+                message_error = "Invalid option"
+                print(message_error)
+            
+            #clear console
+            input("Prest enter to continue...")
+            print(clear_screen)
 
 
 
