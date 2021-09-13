@@ -1435,6 +1435,8 @@ message_error = 'Error'
 n = 50 # Number of products
 i = 0 # index because we can't use range
 num_characters = 40 # To display in product information
+clear_screen = "\n"*10
+
 # a list of sales number and product id lists [[sales, id, name, category], ]
 sales_by_product = []
 
@@ -1457,6 +1459,24 @@ for product in lifestore_products:
     search_by_product.append( [ 0, product[0], product[1] ] )
     product_by_review.append( [ 0, product[0], product[1], 0, 0, 0] )
 
+
+""" List of the 50 best-selling products """
+# count products sales
+for sale in lifestore_sales:
+    if sale[4] == 0:
+        sales_by_product[ sale[1] - 1 ][0] += 1
+sales_by_product.sort(reverse=True)
+
+""" List of the 100 most searched products  """
+
+# search products sales
+for search in lifestore_searches:
+    search_by_product[ search[1] - 1 ][0] += 1
+
+search_by_product.sort(reverse=True)
+
+
+# Login and menu
 while( not user_logged ):
     # Ask for credentials
     user     = input('Write your user: ')
@@ -1466,6 +1486,8 @@ while( not user_logged ):
     for u in users:
         if user == u[0] and  password == u[1]:
             message = 'Welcome ' + user
+            clear_screen = "\n"*15
+            print(clear_screen)
             print(message.center(40, '-'))
             user_logged = True
             break
@@ -1478,6 +1500,9 @@ while( not user_logged ):
         # Menu
         menu_option = "0"
         while ( user_logged ):
+
+            i = 0 # reset index
+
             print("Menu")
             print("1. List of the 50 best-selling products")
             print("2. List of the 100 most searched products")
@@ -1487,21 +1512,33 @@ while( not user_logged ):
             print("0. Logout")
             menu_option = input('Choose an option: ')
             if( menu_option == "1" ):
-                """ List of the 50 best-selling products """
-                # count products sales
-                for sale in lifestore_sales:
-                    if sale[4] == 0:
-                        sales_by_product[ sale[1] - 1 ][0] += 1
-
-                sales_by_product.sort(reverse=True)
+                #print the results sales
+                n = 50
+                print('top| id | amount | name')
+                for product in sales_by_product[:n]:
+                    i += 1
+                    print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][0:num_characters] ))
+                    
+                input("Prest enter to continue...")
+                print(clear_screen)
             elif( menu_option == "2" ):
-                print("2..")
+                #print the results search
+                n = 50
+                print('id | amount | name')
+                for product in search_by_product[0:n]:
+                    i += 1
+                    print("{}. | {} | {} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
+                input("Prest enter to continue...")
+                print(clear_screen)
             elif( menu_option == "3" ):
-                print("3..")
+                input("Prest enter to continue...")
+                print(clear_screen)
             elif( menu_option == "4" ):
-                print("4..")
+                input("Prest enter to continue...")
+                print(clear_screen)
             elif( menu_option == "5" ):
-                print("5..")
+                input("Prest enter to continue...")
+                print(clear_screen)
             elif( menu_option == "0" ):
                 user_logged = False
                 print("*logout*")
@@ -1513,31 +1550,6 @@ while( not user_logged ):
 
 
 
-# #print the results sales
-# n = 50
-# print('top| id | amount | name')
-# for product in sales_by_product[:n]:
-#     i += 1
-#     print("{}.  {} {} {} {}".format( i, product[1], product[0], product[2], product[3][:num_characters] ))
-
-
-""" List of the 100 most searched products  """
-
-# search products sales
-
-# n = 100
-# i = 0
-
-# for search in lifestore_searches:
-#     search_by_product[ search[1] - 1 ][0] += 1
-
-# search_by_product.sort(reverse=True)
-
-# #print the results search
-# print('id | amount | name')
-# for product in search_by_product[0:n]:
-#     i += 1
-#     print("{}. | {} | {} | {} ".format( i, product[1], product[0], product[2][:num_characters] ))
 
 """ List of the products with best reviews """
 
