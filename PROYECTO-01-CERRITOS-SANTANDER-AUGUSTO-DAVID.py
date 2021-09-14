@@ -1487,13 +1487,6 @@ for sale in sales_by_product:
         if category[0] == sale[3]:
             category[1].append(sale)
 
-for category in categories:
-    print("**********")
-    print(category[0])
-    print("**********")
-    for sale in category[1]:
-        print( sale )
-
 """ List of the 100 most searched products  """
 
 # search products sales
@@ -1533,7 +1526,7 @@ while( not user_logged ):
             print("Menu")
             print("1. List of the 50 best-selling products")
             print("2. List of the 100 most searched products")
-            print("3. List of the 100 most searched products")
+            print("3. List of the 5 best-selling products by category")
             print("4. List of the 5 best-selling products by category")
             print("5. List of the worst 5 products sold")
             print("0. Logout")
@@ -1547,15 +1540,25 @@ while( not user_logged ):
                     print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][0:num_characters] ))
                     
             elif( menu_option == "2" ):
-                #print the results search
+                # print the results search
                 n = 50
                 print('id | amount | name')
-                for product in search_by_product[0:n]:
+                for product in search_by_product[:n]:
                     i += 1
                     print("{}. | {} | {} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
 
             elif( menu_option == "3" ):
-                print(3)
+                # sales by category
+                n = 5
+                for category in categories[:n]:
+                    print("**********")
+                    print(category[0])
+                    print("**********")
+                    i = 0
+                    for sale in category[1]:
+                        i += 1
+                        print("{}. | {} | {} | {}... ".format( i, sale[1], sale[0], sale[2][:num_characters] ))
+
             elif( menu_option == "4" ):
                 print(4)
             elif( menu_option == "5" ):
