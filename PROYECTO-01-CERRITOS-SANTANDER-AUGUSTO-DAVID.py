@@ -1475,25 +1475,37 @@ for product in lifestore_products:
 
 
 sales_by_year = []
+sales_and_price = []
 # [[2019, [0,1,3,4,5], 2000, 34000.3] ]        
 
 for sale in lifestore_sales:
     date = sale[3]
-    current_year = date[6:]
-    month_sales = [0,0,0,0,0,0,0,0,0,0,0]
+    sale_year = date[6:]
+    month_sales = [
+                    [0,'Jan',0], [0,'Feb',0], [0,'Mar',0], [0,'Apr',0], [0,'May',0], [0,'Jun',0], 
+                    [0,'Jul',0], [0,'Aug',0], [0,'Sep',0], [0,'Oct',0], [0,'Nov',0], [0,'Dec',0], 
+                ] #[[sales, month, revenues],]
     revenues = 0
-    year = [ current_year, month_sales, revenues ]
+    year = [ sale_year, month_sales, revenues ]
     if sale[4] == 0:
         sales_by_product[ sale[1] - 1 ][0] += 1
     if not year in sales_by_year:
         sales_by_year.append(year)
+    for product in lifestore_products:
+        if sale[1] == product [0]:
+            sales_and_price.append([sale[0], sale[1], sale[2], sale[3], product[2], sale[4]])
 
 sales_by_product.sort(reverse=True)
 
-print(sales_by_year)
-
-# for sale in sales_by_product:
-#     date =    
+for sale in sales_and_price:
+    date = sale[3]
+    year = date[6:]
+    month = int(date[3:5])
+    for sale_year in sales_by_year:
+        if sale_year[0] == year and sale[5] == 0:
+            sale_year[1][ month-1 ][0] += 1 #count a month sale
+            sale_year[1][ month-1 ][2] += sale[4]  #add up month sale
+            sale_year[2] += sale[4] #add up month sale
 
 # Sales by category
 for sale in sales_by_product:
@@ -1541,6 +1553,7 @@ while( not user_logged ):
             print("3. List of the 5 best-selling products by category")
             print("4. List of the 100 lowest searched products")
             print("5. List of the worst 5 products sold")
+            print("6. Total revenue and average monthly sales")
             print("0. Logout")
             menu_option = input('Choose an option: ')
             print("\n")
@@ -1584,6 +1597,24 @@ while( not user_logged ):
                     print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][:num_characters] ))
             elif( menu_option == "5" ):
                 print(5)
+            elif( menu_option == "6" ):
+                #print Total revenue and average monthly sales
+                for year in sales_by_year:
+                    print("-"*40)
+                    print(year[0])
+                    print("-"*40)
+                    print("\n")
+                    print("* ${} total revenue".format( year[2] ))
+                    print("* ${} average monthly sales".format( year[2]/12 ))
+                    print("\n")
+                    year[1].sort(reverse=True)
+                    print("Months with more sales " + year[0])
+                    print("Month | sales | revenues ")
+                    for month in year[1][:5]:
+                        print("{}   | {}    | {} ".format( month[1], month[0], month[2]))
+                    print("-"*40)
+                    print("-"*40)
+                    print("\n")
             elif( menu_option == "0" ):
                 user_logged = False
                 print("*logout*")
