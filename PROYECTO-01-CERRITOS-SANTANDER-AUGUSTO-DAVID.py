@@ -1457,7 +1457,7 @@ users = [
 categories = []
 
 for product in lifestore_products:
-    sales_by_product.append( [ 0, product[0], product[1], product[3] ]) # quantity_sales, id, name, category
+    sales_by_product.append( [ 0, product[0], product[1], product[3]]) # quantity_sales, id, name, category
     search_by_product.append( [ 0, product[0], product[1] ] ) # search_quantity, id, name,
     product_by_review.append( 
         [ 0, #average_revew
@@ -1469,25 +1469,37 @@ for product in lifestore_products:
         ] 
         )
     category = [product[3], []]
-    if not category in categories:
+    if not category in categories: #search categories
         categories.append(category)
 
 
-""" List of the 50 best-selling products """
-# count products sales
+
+sales_by_year = []
+# [[2019, [0,1,3,4,5], 2000, 34000.3] ]        
+
 for sale in lifestore_sales:
+    date = sale[3]
+    current_year = date[6:]
+    month_sales = [0,0,0,0,0,0,0,0,0,0,0]
+    revenues = 0
+    year = [ current_year, month_sales, revenues ]
     if sale[4] == 0:
         sales_by_product[ sale[1] - 1 ][0] += 1
+    if not year in sales_by_year:
+        sales_by_year.append(year)
 
 sales_by_product.sort(reverse=True)
+
+print(sales_by_year)
+
+# for sale in sales_by_product:
+#     date =    
 
 # Sales by category
 for sale in sales_by_product:
     for category in categories:
         if category[0] == sale[3]:
             category[1].append(sale)
-
-""" List of the 100 most searched products  """
 
 # search products sales
 for search in lifestore_searches:
@@ -1523,44 +1535,53 @@ while( not user_logged ):
 
             i = 0 # reset index
 
-            print("Menu")
+            print("Menu \n")
             print("1. List of the 50 best-selling products")
             print("2. List of the 100 most searched products")
             print("3. List of the 5 best-selling products by category")
-            print("4. List of the 5 best-selling products by category")
+            print("4. List of the 100 lowest searched products")
             print("5. List of the worst 5 products sold")
             print("0. Logout")
             menu_option = input('Choose an option: ')
+            print("\n")
             if( menu_option == "1" ):
                 #print the results sales
-                n = 50
-                print('top| id | amount | name')
+                n = 50 #number of results
+                print('top| id | sales | name')
                 for product in sales_by_product[:n]:
                     i += 1
                     print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][0:num_characters] ))
                     
             elif( menu_option == "2" ):
-                # print the results search
-                n = 50
-                print('id | amount | name')
+                # print 100 most searched products
+                n = 20 #number of results
+                print('top| id | searches | name')
                 for product in search_by_product[:n]:
                     i += 1
-                    print("{}. | {} | {} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
+                    print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][:num_characters] ))
 
             elif( menu_option == "3" ):
                 # sales by category
                 n = 5
-                for category in categories[:n]:
-                    print("**********")
+                for category in categories:
+                    print("")
+                    print("*"*50)
                     print(category[0])
-                    print("**********")
+                    print("*"*50)
+                    print()
                     i = 0
-                    for sale in category[1]:
+                    print('top| id | sales | name')
+                    for sale in category[1][0:n]:
                         i += 1
-                        print("{}. | {} | {} | {}... ".format( i, sale[1], sale[0], sale[2][:num_characters] ))
+                        print("{}. | {} | {} | {}...".format( i, sale[1], sale[0], sale[2][:num_characters] ))
 
             elif( menu_option == "4" ):
-                print(4)
+                # print 100 most searched products
+                n = 20 #number of results
+                print('top| id | searches | name')
+                for product in search_by_product[-n:]:
+                    i += 1
+                    print("{}. | {} | {} | {}...".format( i, product[1], product[0], product[2][:num_characters] ))
             elif( menu_option == "5" ):
                 print(5)
             elif( menu_option == "0" ):
