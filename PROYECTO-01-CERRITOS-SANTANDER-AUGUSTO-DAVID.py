@@ -1570,7 +1570,7 @@ while( not user_logged ):
 
             print("Menu \n")
             print("1. List of the 50 best-selling products")
-            print("2. List of the 100 most searched products")
+            print("2. List of the 20 most searched products")
             print("3. List of the 5 best-selling products by category")
             print("4. List of the 20 lowest searched products")
             print("5. List of the worst 50 products sold")
@@ -1907,38 +1907,3 @@ while( not user_logged ):
             #clear console
             input("Prest enter to continue...")
             print(clear_screen)
-
-
-
-
-
-
-
-
-
-""" List of the products with best reviews """
-
-# n = 20
-# i = 0
-
-
-# best_review_product = product_by_review[:n]
-
-
-#Worst review products with refund
-# refund_products = []
-
-# for product in product_by_review:
-#     if product[5] == 1:
-#         refund_products.append(product)
-
-# refund_products.sort(reverse=True)
-
-# print("-"*20)
-
-# i=0
-# for product in refund_products[-n:]:
-#     i +=1
-#     print("{}. | {} | {:.2f} | {}... ".format( i, product[1], product[0], product[2][:num_characters] ))
-
-
