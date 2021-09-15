@@ -1446,6 +1446,17 @@ search_by_product = []
 # a list of product by review [average_review, id, name, reviews, sum_reviews, refound ]
 product_by_review = []
 
+
+# a list of product by stok [stok, id, name ]
+product_by_stock = []
+
+
+# year list and its sales by months
+sales_by_year = [] # [[2019, [0,1,3,4,5], 2000, 34000.3], ]        
+
+# sale list whith price product
+sales_and_price = [] 
+
 # Users and passwords
 #[user, password]
 users = [
@@ -1457,8 +1468,9 @@ users = [
 categories = []
 
 for product in lifestore_products:
-    sales_by_product.append( [ 0, product[0], product[1], product[3]]) # quantity_sales, id, name, category
+    sales_by_product.append( [ 0, product[0], product[1], product[3] ] ) # quantity_sales, id, name, category
     search_by_product.append( [ 0, product[0], product[1] ] ) # search_quantity, id, name,
+    product_by_stock.append( [ product[4], product[0], product[1] ] ) # stock, id, name
     product_by_review.append( 
         [ 0, #average_review
          product[0], #id
@@ -1471,13 +1483,6 @@ for product in lifestore_products:
     category = [product[3], []]
     if not category in categories: #search categories
         categories.append(category)
-
-# year list and its sales by months
-sales_by_year = [] # [[2019, [0,1,3,4,5], 2000, 34000.3], ]        
-
-# sale list whith price product
-sales_and_price = [] 
-
 
 for sale in lifestore_sales:
     date = sale[3]
@@ -1497,6 +1502,7 @@ for sale in lifestore_sales:
             sales_and_price.append([sale[0], sale[1], sale[2], sale[3], product[2], sale[4]])
 
 sales_by_product.sort(reverse=True)
+product_by_stock.sort(reverse=True)
 
 # count sales by year and month
 for sale in sales_and_price:
@@ -1570,7 +1576,8 @@ while( not user_logged ):
             print("5. List of the worst 50 products sold")
             print("6. List of the best 20 review product")
             print("7. List of the worst 20 review product")
-            print("8. Total revenue and average monthly sales")
+            print("8. List of products with more stok")
+            print("9. Total revenue and average monthly sales")
             print("0. Logout")
             menu_option = input('Choose an option: ')
             print("\n")
@@ -1833,6 +1840,37 @@ while( not user_logged ):
                 print("\n")
 
             elif( menu_option == "8" ):
+                i = 0
+                n = 20
+                print('Top  | Id  | Stock  | Name')
+                for product in product_by_stock[:n]:
+                    i +=1
+                     #format print
+                    id = str(product[1])
+                    searches = str(product[0])
+                    if i < 10:
+                        index =  "00" + str(i)
+                    elif i < 100:
+                        index =  "0" + str(i)
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print("{}. | {} |  {} | {}... ".format( index, id, product[0], product[2][:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | review stars ")
+                print("-"*40)
+                for product in product_by_stock[:n]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*int(product[0]))
+                print("\n")
+            elif( menu_option == "9" ):
                 #print Total revenue and average monthly sales
                 for year in sales_by_year:
                     print("-"*40)
