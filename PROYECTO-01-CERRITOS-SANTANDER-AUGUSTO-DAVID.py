@@ -1460,23 +1460,24 @@ for product in lifestore_products:
     sales_by_product.append( [ 0, product[0], product[1], product[3]]) # quantity_sales, id, name, category
     search_by_product.append( [ 0, product[0], product[1] ] ) # search_quantity, id, name,
     product_by_review.append( 
-        [ 0, #average_revew
+        [ 0, #average_review
          product[0], #id
          product[1], #name
          0, #quantity_review
          0, #sum review
-         0, # refund
+         0, #refund
         ] 
         )
     category = [product[3], []]
     if not category in categories: #search categories
         categories.append(category)
 
+# year list and its sales by months
+sales_by_year = [] # [[2019, [0,1,3,4,5], 2000, 34000.3], ]        
 
+# sale list whith price product
+sales_and_price = [] 
 
-sales_by_year = []
-sales_and_price = []
-# [[2019, [0,1,3,4,5], 2000, 34000.3] ]        
 
 for sale in lifestore_sales:
     date = sale[3]
@@ -1497,6 +1498,7 @@ for sale in lifestore_sales:
 
 sales_by_product.sort(reverse=True)
 
+# count sales by year and month
 for sale in sales_and_price:
     date = sale[3]
     year = date[6:]
@@ -1550,7 +1552,7 @@ while( not user_logged ):
             break
 
     # Message if credentials are incorrect
-    if not  user_logged:
+    if not user_logged:
         message_error = 'User or password incorrect'
         print(message_error.center(60, '-'))
     else:
@@ -1578,7 +1580,7 @@ while( not user_logged ):
                 print('Top  | Id  | Sales  | Name')
                 for product in sales_by_product[:n]:
                     i += 1
-                    # formar print
+                    # format print
                     id = str(product[1])
                     sales = str(product[0])
                     if i < 10:
@@ -1594,6 +1596,19 @@ while( not user_logged ):
                     elif product[0] < 100:
                         sales = "  " + sales +  " "
                     print("{}. | {} |  {} | {}...".format( index, id, sales, product[2][0:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | sales ")
+                print("-"*40)
+                for product in sales_by_product[:n]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*product[0])
+                print("\n")
                     
             elif( menu_option == "2" ):
                 # print 100 most searched products
@@ -1601,7 +1616,7 @@ while( not user_logged ):
                 print('Top  | Id  | Searches | Name')
                 for product in search_by_product[:n]:
                     i += 1
-                    # formar print
+                    # format print
                     id = str(product[1])
                     searches = str(product[0])
                     if i < 10:
@@ -1619,6 +1634,19 @@ while( not user_logged ):
                     else: 
                         searches = " " + searches +  " "
                     print("{}. | {} | {}    | {}...".format( index, id, searches, product[2][:num_characters] ))
+                
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | searches ")
+                print("-"*40)
+                for product in search_by_product[:n]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*product[0])
+                print("\n")
 
             elif( menu_option == "3" ):
                 # sales by category
@@ -1631,8 +1659,8 @@ while( not user_logged ):
                     print()
                     i = 0
                     print('top  | id  | sales  | name')
-                    for sale in category[1][0:n]:
-                        # formar print
+                    for sale in category[1][:n]:
+                        # format print
                         id = str(sale[1])
                         sales = str(sale[0])
                         i += 1
@@ -1650,6 +1678,19 @@ while( not user_logged ):
                             sales = "  " + sales +  " "
                         
                         print("{}. | {} |  {}  | {}...".format( index, id, sales, sale[2][:num_characters] ))
+                    
+                    print("\n")
+                    print("############# Histogram #############")
+                    print("id  | sales ")
+                    print("-"*40)
+                    for sale in category[1][:n]:
+                        id = str(sale[1])
+                        if sale[1] < 10:
+                            id = " " + id  + " "
+                        elif sale[1]  < 100:
+                            id = id + " "
+                        print( id, "|" ,"*"*sale[0])
+                    print("\n")
 
             elif( menu_option == "4" ):
                 # print 100 most searched products
@@ -1675,13 +1716,28 @@ while( not user_logged ):
                     else: 
                         searches = " " + searches +  " "
                     print("{}. | {} |    {} | {}...".format( index, id, searches, product[2][:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | searches ")
+                print("-"*40)
+                for product in search_by_product[-n:]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*product[0])
+                print("\n")
+                    
+
             elif( menu_option == "5" ):
                 #print the results sales
                 n = 50 #number of results
                 print('Top  | Id  | Sales  | Name')
                 for product in sales_by_product[-n:]:
                     i += 1
-                    # formar print
+                    # format print
                     id = str(product[1])
                     sales = str(product[0])
                     if i < 10:
@@ -1697,6 +1753,20 @@ while( not user_logged ):
                     elif product[0] < 100:
                         sales = "  " + sales +  " "
                     print("{}. | {} |  {} | {}...".format( index, id, sales, product[2][0:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | searches ")
+                print("-"*40)
+                for product in sales_by_product[-n:]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*product[0])
+                print("\n")
+
             elif( menu_option == "6" ):
                 # print best review products
                 i = 0
@@ -1716,6 +1786,20 @@ while( not user_logged ):
                     elif product[1]  < 100:
                         id = id + " "
                     print("{}. | {} | {:.2f}   | {}... ".format( index, id, product[0], product[2][:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | review stars ")
+                print("-"*40)
+                for product in product_by_review[:n]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*int(product[0]))
+                print("\n")
+
             elif( menu_option == "7" ):
                 i = 0
                 n = 20
@@ -1734,6 +1818,20 @@ while( not user_logged ):
                     elif product[1]  < 100:
                         id = id + " "
                     print("{}. | {} |    {:.2f} | {}... ".format( index, id, product[0], product[2][:num_characters] ))
+
+                print("\n")
+                print("############# Histogram #############")
+                print("id  | review stars ")
+                print("-"*40)
+                for product in product_by_review[-n:]:
+                    id = str(product[1])
+                    if product[1] < 10:
+                        id = " " + id  + " "
+                    elif product[1]  < 100:
+                        id = id + " "
+                    print( id, "|" ,"*"*int(product[0]))
+                print("\n")
+
             elif( menu_option == "8" ):
                 #print Total revenue and average monthly sales
                 for year in sales_by_year:
@@ -1751,6 +1849,14 @@ while( not user_logged ):
                         print("{}   |    {}  |  ${} ".format( month[1], month[0], month[2]))
                     print("-"*40)
                     print("-"*40)
+                    print("\n")
+
+                    print("\n")
+                    print("############# Histogram #############")
+                    print("id  | sales ")
+                    print("-"*40)
+                    for month in year[1][:5]:
+                        print( month[1], "|" ,"*"*int(month[0]))
                     print("\n")
             elif( menu_option == "0" ):
                 user_logged = False
